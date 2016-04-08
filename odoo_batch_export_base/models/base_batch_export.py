@@ -39,17 +39,17 @@ class BatchExport(models.Model):
             ModelObj = self.env[self.model]
         except:
             raise exceptions.Warning("Model could not be found in the system!")
-        self.generic_batch_export_model(ModelObj, self.model)
+        self.generic_batch_export_model(ModelObj, self.use_compression, self.model)
 
     @api.model
-    def cron_batch_export_model(self, model):
+    def cron_batch_export_model(self, model, use_compression):
         try:
             ModelObj = self.env[model]
         except:
             raise exceptions.Warning("Model could not be found in the system!")
-        self.generic_batch_export_model(ModelObj, model)
+        self.generic_batch_export_model(ModelObj, use_compression, model)
 
-    def generic_batch_export_model(self, ModelObj, model):
+    def generic_batch_export_model(self, ModelObj, use_compression, model):
         fields = ModelObj.fields_get().keys()
         records = ModelObj.search([]).read(fields)
         file_prefix = '/mnt/exports/%s_export_' % model
@@ -61,7 +61,7 @@ class BatchExport(models.Model):
             for record in records:
                 row = [unicode(record[k]) for k in fields]
                 csv.writerow(row)
-        if self.use_compression:
+        if use_compression:
             with open(filename, 'rb') as f_in, gzip.open(filename + '.gz', 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
             os.remove(filename)

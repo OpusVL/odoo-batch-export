@@ -13,18 +13,22 @@ If you do not use docker - ignore the following prerequisites.
 * Set up a volume in the `docker-compose.yml` file:
 ```bash
   volumes:
-    - ./exports:/mnt/exports```
+    - ./exports:/mnt/exports
+```
 * Create a `./exports` folder in the same folder as `docker-compose.yml`, and change the folder uid and gid to the Odoo uid/gid in the container (Run the snippet from outside the container):
 ```bash
-$ mkdir exports```
+$ mkdir exports
+```
 ```bash
-$ sudo chown `docker exec -i <container_name> bash -c "grep odoo /etc/passwd | cut -f3 -d:"`:`docker exec -i <container_name> bash -c "grep odoo /etc/passwd | cut -f4 -d:"` exports```
+$ sudo chown `docker exec -i <container_name> bash -c "grep odoo /etc/passwd | cut -f3 -d:"`:`docker exec -i <container_name> bash -c "grep odoo /etc/passwd | cut -f4 -d:"` exports
+```
 
 
 
 * Add the following lines to your `Dockerfile`:
 ```bash
-RUN mkdir -p /mnt/exports```
+RUN mkdir -p /mnt/exports
+```
 
 ## Usage
 * Install the module, go to `Settings -> Batch Export -> Batch Export -> Create`
@@ -46,7 +50,8 @@ RUN mkdir -p /mnt/exports```
     <field name="model" eval="'batch.export'"/>
     <field name="function" eval="'cron_batch_export_model'"/>
     <field name="args" eval="('product.template',)"/>
-</record>```
+</record>
+```
 * To change this to `sale.order` we would simply change the 'args' eval to `eval="('sale.order',)`, along with other relevant info such as name.
 
 

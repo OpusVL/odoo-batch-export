@@ -29,8 +29,8 @@ import time, tempfile, csv, codecs, cStringIO, shutil, gzip, os
 class BatchExport(models.Model):
     _name = "batch.export"
 
-    name = fields.Char()
-    model = fields.Char(help="The technical model name i.e 'product.template'")
+    name = fields.Char(required=True)
+    model = fields.Char(help="The technical model name i.e 'product.template'", required=True)
     use_compression = fields.Boolean(help="Will gzip the csv file after export.")
 
     @api.one

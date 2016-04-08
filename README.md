@@ -54,6 +54,22 @@ RUN mkdir -p /mnt/exports
 ```
 * To change this to `sale.order` we would simply change the 'args' eval to `eval="('sale.order',)`, along with other relevant info such as name. The second param: `True` is for whether to use compression or not.
 
+## Changing which fields are exported
+It's possible to make changes to the fields which are exported in your own custom module. Make sure odoo_batch_export_base is listed as a module dependency. Below is an example
+```python
+from openerp import models
+from openerp.addons.odoo_batch_export_base.models.base_batch_export import BatchExport
+
+
+class BatchExportExtension(models.Model):
+    _inherit = "batch.export"
+
+    def generic_batch_export_model_filter(self, ModelObj, use_compression, model):
+        excluded_fields = [
+            'ean13',
+        ]
+        BatchExport.generic_batch_export_model(self, ModelObj, use_compression, model, excluded_fields)
+```
 
 ## Side Notes
 * Exporting the res.users model will result in storing password hashes for all users in the .csv file. This is effectively the same as the information stored in the database.

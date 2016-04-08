@@ -49,7 +49,7 @@ RUN mkdir -p /mnt/exports
     <field name="numbercall">-1</field>
     <field name="model" eval="'batch.export'"/>
     <field name="function" eval="'cron_batch_export_model'"/>
-    <field name="args" eval="('product.template', True)"/>
+    <field name="args" eval="('product.template', True,)"/>
 </record>
 ```
 * To change this to `sale.order` we would simply change the 'args' eval to `eval="('sale.order',)`, along with other relevant info such as name. The second param: `True` is for whether to use compression or not.

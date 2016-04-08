@@ -32,7 +32,7 @@ RUN mkdir -p /mnt/exports
 
 ## Usage
 * Install the module, go to `Settings -> Batch Export -> Batch Export -> Create`
-* Type a model name e.g `product.template` or `sale.order.line` - and give the record any name.
+* Type a model name e.g `product.template` or `sale.order.line` - and give the record any name. You can also use .gz compression after export by ticking `Use compression` (optional)
 * Click the export button.
 * Once complete - the csv file will be in your local exports folder (or /mnt/exports/ inside the container/server)
 
@@ -57,3 +57,4 @@ RUN mkdir -p /mnt/exports
 
 ## Side Notes
 * Exporting the res.users model will result in storing password hashes for all users in the .csv file. This is effectively the same as the information stored in the database.
+* CSV File will be removed after compression. Make sure you have software compatible with unzipping .gz files if using this option

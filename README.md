@@ -65,9 +65,11 @@ class BatchExportExtension(models.Model):
     _inherit = "batch.export"
 
     def generic_batch_export_model_filter(self, ModelObj, use_compression, model):
-        excluded_fields = [
-            'ean13',
-        ]
+        excluded_fields = []
+        if model == 'product.template':
+            excluded_fields = [
+                'ean13',
+            ]
         BatchExport.generic_batch_export_model(self, ModelObj, use_compression, model, excluded_fields)
 ```
 

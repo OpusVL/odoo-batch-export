@@ -10,7 +10,7 @@ However - you can use it without - by simply creating the `/mnt/exports/` folder
 
 If you do not use docker - ignore the following prerequisites.
 
-* Set up a volume in the `docker-compose.yml` file:
+* Set up a volume in the `docker-compose.yml` file under `odoo`:
 ```bash
   volumes:
     - ./exports:/mnt/exports

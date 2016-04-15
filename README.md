@@ -76,7 +76,7 @@ class BatchExportExtension(models.Model):
         new_fields = [field for field in base_fields if field not in excluded_fields]
         fields = new_fields if new_fields else base_fields
         records = ModelObj.search([('standard_price', '>', 100)]).read(fields)
-        BatchExport.generic_batch_export_model(self, ModelObj, use_compression, model, records)
+        BatchExport.generic_batch_export_model(self, ModelObj, use_compression, model, records, fields)
 ```
 
 ## Side Notes

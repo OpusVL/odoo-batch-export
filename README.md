@@ -54,8 +54,10 @@ RUN mkdir -p /mnt/exports
 ```
 * To change this to `sale.order` we would simply change the 'args' eval to `eval="('sale.order',)`, along with other relevant info such as name. The second param: `True` is for whether to use compression or not.
 
-## Changing which fields are exported
-It's possible to make changes to the fields which are exported in your own custom module. Make sure odoo_batch_export_base is listed as a module dependency. Below is an example
+## Changing which fields/records are exported
+It's possible to make changes to the fields which are exported in your own custom module. Make sure odoo_batch_export_base is listed as a module dependency. Below is an example.
+
+You can also change the search domain of which records to export.
 ```python
 from openerp import models
 from openerp.addons.odoo_batch_export_base.models.base_batch_export import BatchExport
@@ -70,7 +72,11 @@ class BatchExportExtension(models.Model):
             excluded_fields = [
                 'ean13',
             ]
-        BatchExport.generic_batch_export_model(self, ModelObj, use_compression, model, excluded_fields)
+        base_fields = ModelObj.fields_get().keys()
+        new_fields = [field for field in base_fields if field not in excluded_fields]
+        fields = new_fields if new_fields else base_fields
+        records = ModelObj.search([('standard_price', '>', 100)]).read(fields)
+        BatchExport.generic_batch_export_model(self, ModelObj, use_compression, model, records)
 ```
 
 ## Side Notes

@@ -53,13 +53,13 @@ class BatchExport(models.Model):
 
     def generic_batch_export_model_filter(self, ModelObj, use_compression, model):
         excluded_fields = []
-        self.generic_batch_export_model(ModelObj, use_compression, model, excluded_fields)
-
-    def generic_batch_export_model(self, ModelObj, use_compression, model, excluded_fields):
         base_fields = ModelObj.fields_get().keys()
         new_fields = [field for field in base_fields if field not in excluded_fields]
         fields = new_fields if new_fields else base_fields
         records = ModelObj.search([]).read(fields)
+        self.generic_batch_export_model(ModelObj, use_compression, model, records)
+
+    def generic_batch_export_model(self, ModelObj, use_compression, model, records):
         file_prefix = '/mnt/exports/%s_export_' % model
         filename = file_prefix + time.strftime("%Y-%m-%d_%H:%M:%S") + '.csv'
         # Write directly to file

@@ -36,6 +36,8 @@
     ],
     'data': [
         'views/base_batch_export_view.xml',
+        # SECURITY
+        'security/ir.model.access.csv',
     ],
     'demo': [
     ],
